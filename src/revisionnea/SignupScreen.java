@@ -5,12 +5,17 @@
  */
 package revisionnea;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import revisionnea.Sendemail;
+
 /**
  *
  * @author BG201054
  */
 public class SignupScreen extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form SignupScreen
      */
@@ -186,9 +191,23 @@ public class SignupScreen extends javax.swing.JFrame {
         String confpswrd = ConfPswd.getText();
         String useremail = EmailTF.getText();
         String useremailconf = ConfEmail.getText();
-        String userSchool = SchoolsList.getName();
-        if(password==confpswrd && useremail == useremailconf){
-            
+        String userSchool = SchoolsList.getSelectedValue();
+        if (password.equals(confpswrd)) {
+            int verficationnum = 1;
+            try {
+                Sendemail.sendMail(useremail, verficationnum);
+            } catch (Exception ex) {
+                Logger.getLogger(SignupScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            String Hpassword = hashing.Hashpassword(password);
+            User newuser = new User(name, username, Hpassword, useremail, userSchool);
+
+            repository.insertNewUser(newuser);
+            JOptionPane.showMessageDialog(null, "Welcome " + name + "!");
+            LoginScreen x = new LoginScreen();
+            x.setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
