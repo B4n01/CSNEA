@@ -30,4 +30,7 @@ public class hashing {
         }
         return hashedpassword;
     }
+    public static boolean CompareHashed(String databasePassword, String userEnteredPassword) {
+        return Hashpassword(userEnteredPassword).equals(databasePassword);
+    }
 }

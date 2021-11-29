@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 public class repository {
-    
+    private static User currentUser;
     private static final String DatabaseLocation = System.getProperty("user.dir") + "\\RevisionNEA.accdb";
     private static Connection con;
     
@@ -40,15 +40,17 @@ public class repository {
             con.close();
         } catch (Exception e) {
             System.out.println("Error in the repository class: " + e);
+       
         }
+    }
         public static boolean LogIn(String userID, String password) {
         try {
-            String sql = "SELECT * FROM Employee where Employee_ID = '" + userID + "'";
+            String sql = "SELECT * FROM Userdetails where Username = '" + userID + "'";
             ResultSet rs = SQLexecute.executeQuery(getConnection(), sql);
 
             if (rs.next()) {
-                currentUser = new Employee(rs.getString("Employee_Id"), rs.getString("Employee_Fname"), rs.getString("Employee_Lname"), rs.getString("Employee_Password"), rs.getString("Employee_Dept"), rs.getString("Employee_Office"), rs.getString("Employee_Phone"), rs.getDate("Employee_HireDate"), rs.getDouble("Employee_HourlyRate"));
-                if (!helper.CompareHashed(currentUser.getEmployee_Password(), password)) {
+                currentUser = new User(rs.getString("NameOU"), rs.getString("Username"), rs.getString("Password"), rs.getString("E-mail"),rs.getString("School"));
+                if (!hashing.CompareHashed(currentUser.getHPassword(), password)) {
                     return false;
                 }
             }
@@ -59,6 +61,5 @@ public class repository {
 
         }
         return currentUser != null;
-    }
     }
 }

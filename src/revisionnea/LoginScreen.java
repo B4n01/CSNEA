@@ -137,7 +137,13 @@ public class LoginScreen extends javax.swing.JFrame {
     private void LoginbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginbuttonActionPerformed
         String Username = Usernametext.getText();
         String Password = Passwordtext.getText();
-        String Hpassword = hashing.Hashpassword(Password);
+        if(!repository.LogIn(Username, Password)){
+            
+        } else {
+            Mainmenu main = new Mainmenu();
+            main.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_LoginbuttonActionPerformed
 
     private void PasswordtextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordtextActionPerformed
